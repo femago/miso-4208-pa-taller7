@@ -1,6 +1,6 @@
 package co.edu.uniandes.miso4208.event;
 
-public class NetSpeedEvent implements Event {
+public class NetSpeedEvent extends Event {
     @Override
     public String getName() {
         return "net";

@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class EventConfig {
-    final Double distribution;
     final Event event;
+    final Double distribution;
 }

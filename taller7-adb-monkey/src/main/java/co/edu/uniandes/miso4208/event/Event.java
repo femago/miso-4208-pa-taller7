@@ -1,11 +1,26 @@
 package co.edu.uniandes.miso4208.event;
 
-public interface Event {
-    String getName();
+public abstract class Event {
 
-    String run(Context execContext);
-
-
-    class Context {
+    enum EventType{
+        telnet,//
+        adb,//
     }
+
+    public abstract String getName();
+
+    protected abstract EventType type();
+
+    protected abstract String command();
+
+    public void run(Context execContext){
+        switch (type()){
+            case adb:
+                break;
+            case telnet:
+                break;
+        }
+
+    }
+
 }

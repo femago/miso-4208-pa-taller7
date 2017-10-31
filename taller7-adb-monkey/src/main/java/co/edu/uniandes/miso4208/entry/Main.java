@@ -1,12 +1,20 @@
 package co.edu.uniandes.miso4208.entry;
 
+import co.edu.uniandes.miso4208.config.EventConfig;
 import co.edu.uniandes.miso4208.config.ExecutionParameters;
+import co.edu.uniandes.miso4208.config.Runner;
 import co.edu.uniandes.miso4208.event.EventDirectory;
+
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        new ExecutionParameters(args, EventDirectory.availableEvents());
+        ExecutionParameters execParameters = new ExecutionParameters(args, EventDirectory.availableEvents());
+        List<EventConfig> events = execParameters.getEvents();
+
+        new Runner(execParameters);
+
     }
 }

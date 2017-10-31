@@ -1,6 +1,6 @@
 package co.edu.uniandes.miso4208.event;
 
-public class RotateEvent implements Event {
+public class RotateEvent extends Event {
     @Override
     public String getName() {
         return "rotate";
