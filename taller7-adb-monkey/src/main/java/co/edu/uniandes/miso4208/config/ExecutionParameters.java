@@ -117,5 +117,7 @@ public class ExecutionParameters {
         evt, // Listado de tipos de eventos
         tt, // telnet token
         s, // semilla
+        apk_loc,
+        apk_name,
     }
 }

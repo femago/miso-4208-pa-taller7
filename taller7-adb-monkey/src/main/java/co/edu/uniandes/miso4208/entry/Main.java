@@ -13,8 +13,8 @@ public class Main {
     public static void main(String[] args) {
 
         ExecutionParameters execParameters = new ExecutionParameters(args, EventDirectory.availableEvents());
-        Runner runner = new Runner(execParameters);
-        runner.monkey();
-
+        Runner runner = new Runner(execParameters, new Emulator(execParameters));
+        runner.installApp();
+        runner.startApp();
     }
 }

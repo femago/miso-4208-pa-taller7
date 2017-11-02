@@ -19,11 +19,10 @@ import java.util.function.Supplier;
 public class Emulator {
 
     private static final String ADB_DIR = System.getenv("ANDROID_HOME") + "\\platform-tools\\";
-    private static final String ADB = System.getenv("ANDROID_HOME") + "\\platform-tools\\adb ";
+    public static final String ADB = System.getenv("ANDROID_HOME") + "\\platform-tools\\adb ";
 
     private final ExecutionParameters execParams;
 
-    @Getter
     private final Runtime commandLine;
     @Getter
     private final Random random;
@@ -54,7 +53,7 @@ public class Emulator {
         final String command = ADB + " devices";
         Process proc = null;
         try {
-            proc = getCommandLine().exec(command);
+            proc = commandLine.exec(command);
         } catch (IOException e) {
             ExceptionUtil.failCommandExec(command);
         }
@@ -86,7 +85,7 @@ public class Emulator {
         if (telnet == null) {
             String command = "telnet localhost " + emulatorPort;
             try {
-                Process telnetPrc = getCommandLine().exec(command);
+                Process telnetPrc = commandLine.exec(command);
                 telnet = new BufferedWriter(new OutputStreamWriter(telnetPrc.getOutputStream()));
                 telnet.write("auth " + telnetToken + "\n");
                 telnet.flush();
@@ -109,7 +108,7 @@ public class Emulator {
     public void sendAdbCommand(String command) {
         String adbCmd = ADB + " " + command;
         try {
-            getCommandLine().exec(adbCmd);
+            commandLine.exec(adbCmd);
         } catch (IOException e) {
             ExceptionUtil.failCommandExec(adbCmd);
         }
