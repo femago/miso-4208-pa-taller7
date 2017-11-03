@@ -2,10 +2,12 @@ package co.edu.uniandes.miso4208.event;
 
 import co.edu.uniandes.miso4208.config.Emulator;
 
+import static co.edu.uniandes.miso4208.event.Event.EventClass.swipe;
+
 public class SwipeEvent extends Event {
     @Override
     public String getName() {
-        return "swipe";
+        return swipe.toString();
     }
 
     @Override

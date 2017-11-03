@@ -2,10 +2,12 @@ package co.edu.uniandes.miso4208.event;
 
 import co.edu.uniandes.miso4208.config.Emulator;
 
+import static co.edu.uniandes.miso4208.event.Event.EventClass.sensor;
+
 public class SensorEvent extends Event {
     @Override
     public String getName() {
-        return "sensor";
+        return sensor.toString();
     }
 
     @Override
@@ -15,7 +17,6 @@ public class SensorEvent extends Event {
 
     @Override
     protected String command(Emulator emulator) {
-        //TODO complete command
         return "sensor";
     }
 

@@ -2,6 +2,8 @@ package co.edu.uniandes.miso4208.event;
 
 import co.edu.uniandes.miso4208.config.Emulator;
 
+import static co.edu.uniandes.miso4208.event.Event.EventClass.net;
+
 public class NetSpeedEvent extends Event {
     enum Speed{
         gsm,
@@ -17,7 +19,7 @@ public class NetSpeedEvent extends Event {
 
     @Override
     public String getName() {
-        return "net";
+        return net.toString();
     }
 
     @Override

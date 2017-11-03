@@ -2,10 +2,12 @@ package co.edu.uniandes.miso4208.event;
 
 import co.edu.uniandes.miso4208.config.Emulator;
 
+import static co.edu.uniandes.miso4208.event.Event.EventClass.tap;
+
 public class TapEvent extends Event {
     @Override
     public String getName() {
-        return "tap";
+        return tap.toString();
     }
 
     @Override

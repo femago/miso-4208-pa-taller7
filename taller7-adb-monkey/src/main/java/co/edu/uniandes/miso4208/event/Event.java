@@ -6,15 +6,19 @@ import lombok.extern.java.Log;
 @Log
 public abstract class Event {
 
+    enum EventClass {
+        text,
+        tap,
+        swipe,
+        key,
+        sensor,
+        rotate,
+        net,
+    }
+
     enum EventType {
         telnet,//
         adb,//
-    }
-
-    public Event() {
-        // Verify running emulator
-        // Init adb
-
     }
 
     public abstract String getName();
@@ -29,10 +33,10 @@ public abstract class Event {
             case adb:
                 String command = "shell input " + commandPrefix;
                 emulator.sendAdbCommand(command);
-                log.info("adb "+command);
+                log.info("adb " + command);
                 break;
             case telnet:
-                log.info("telnet "+commandPrefix);
+                log.info("telnet " + commandPrefix);
                 //emulator.sendTelnetCommand(commandPrefix);
                 break;
         }

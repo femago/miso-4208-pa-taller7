@@ -3,13 +3,14 @@ package co.edu.uniandes.miso4208.event;
 import co.edu.uniandes.miso4208.config.Emulator;
 import org.apache.commons.text.RandomStringGenerator;
 
+import static co.edu.uniandes.miso4208.event.Event.EventClass.text;
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
 
 public class TextEvent extends Event {
     @Override
     public String getName() {
-        return "text";
+        return text.toString();
     }
 
     @Override

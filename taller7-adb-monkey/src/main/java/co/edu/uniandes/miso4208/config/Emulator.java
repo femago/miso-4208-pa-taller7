@@ -1,6 +1,5 @@
 package co.edu.uniandes.miso4208.config;
 
-import co.edu.uniandes.miso4208.config.ExecutionParameters;
 import co.edu.uniandes.miso4208.util.ExceptionUtil;
 import lombok.Getter;
 import lombok.extern.java.Log;
@@ -9,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -75,12 +73,8 @@ public class Emulator {
     }
 
     public void initTelnet() {
-        String telnetToken = execParams.getTelnetToken().orElseThrow(new Supplier<RuntimeException>() {
-            @Override
-            public RuntimeException get() {
-                return new IllegalArgumentException("Se requiere el parametro -tt indicando el token de telnet");
-            }
-        });
+        String telnetToken = execParams.getTelnetToken()
+                .orElseThrow((Supplier<RuntimeException>) () -> new IllegalArgumentException("Se requiere el parametro -tt indicando el token de telnet"));
 
         if (telnet == null) {
             String command = "telnet localhost " + emulatorPort;
