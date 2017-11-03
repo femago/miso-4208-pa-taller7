@@ -31,8 +31,8 @@ public class Emulator {
     private Long emulatorPort;
     private Writer telnet;
 
-    private final int DEVICE_X = 500;
-    private final int DEVICE_Y = 500;
+    private final int DEVICE_X = 1080;
+    private final int DEVICE_Y = 1920;
 
     public Emulator(ExecutionParameters execParams) {
         this.execParams = execParams;

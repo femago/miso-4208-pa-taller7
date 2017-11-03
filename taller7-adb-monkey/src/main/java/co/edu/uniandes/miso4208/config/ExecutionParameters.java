@@ -8,33 +8,48 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
-import static co.edu.uniandes.miso4208.config.ExecutionParameters.ParamType.evt;
-import static co.edu.uniandes.miso4208.config.ExecutionParameters.ParamType.num;
-import static co.edu.uniandes.miso4208.config.ExecutionParameters.ParamType.s;
-import static co.edu.uniandes.miso4208.config.ExecutionParameters.ParamType.tt;
+import static co.edu.uniandes.miso4208.config.ExecutionParameters.ParamType.*;
 
 @Log
 public class ExecutionParameters {
 
     @Getter
-    final private int eventCount;
+    private final int eventCount;
     @Getter
-    final private List<EventConfig> events;
+    private final List<EventConfig> events;
     @Getter
-    final private Optional<String> telnetToken;
+    private final Optional<String> telnetToken;
     @Getter
-    final private Optional<Long> seed;
+    private final Optional<Long> seed;
+    @Getter
+    private final String apkLocation;
+    @Getter
+    private final String apkName;
 
-    final private List<Event> availableEvents;
+    private final List<Event> availableEvents;
+
+    private final Map<String, String> normalizedParams;
 
     public ExecutionParameters(String[] args, List<Event> events) {
         availableEvents = events;
-        Map<String, String> normalizedParams = normalize(args);
+        normalizedParams = normalize(args);
         log.info("Parametros extraidos: " + normalizedParams.toString());
-        this.events = ImmutableList.copyOf(parseEvents(normalizedParams));
-        eventCount = parseEventCount(normalizedParams);
-        telnetToken = Optional.ofNullable(parseTelnetToken(normalizedParams));
-        seed = parseSeed(normalizedParams);
+        this.events = ImmutableList.copyOf(parseEvents());
+        eventCount = parseEventCount();
+        telnetToken = Optional.ofNullable(parseTelnetToken());
+        seed = parseSeed();
+        apkLocation = parseApkLocation();
+        apkName = parseApkName();
+    }
+
+    private String parseApkName() {
+        return Optional.ofNullable(normalizedParams.get(apk_name.toString()))
+                .orElseThrow(() -> fail("El nombre del paquete del apk es requerido"));
+    }
+
+    private String parseApkLocation() {
+        return Optional.ofNullable(normalizedParams.get(apk_loc.toString()))
+                .orElseThrow(() -> fail("La ubicacion del apk a instalar es requeridad"));
     }
 
 
@@ -57,7 +72,7 @@ public class ExecutionParameters {
             fail("Se esperaba un tipo de parametro: %1$s", next);
     }
 
-    private int parseEventCount(Map<String, String> normalizedParams) {
+    private int parseEventCount() {
         String n = normalizedParams.get(num.toString());
         try {
             return Integer.valueOf(n).intValue();
@@ -66,11 +81,11 @@ public class ExecutionParameters {
         }
     }
 
-    private String parseTelnetToken(Map<String, String> normalizedParams) {
+    private String parseTelnetToken() {
         return normalizedParams.get(tt.toString());
     }
 
-    private Optional<Long> parseSeed(Map<String, String> normalizedParams) {
+    private Optional<Long> parseSeed() {
         String n = normalizedParams.get(s.toString());
         try {
             if (n != null)
@@ -82,7 +97,7 @@ public class ExecutionParameters {
         }
     }
 
-    private List<EventConfig> parseEvents(Map<String, String> normalizedParams) {
+    private List<EventConfig> parseEvents() {
         String events = normalizedParams.get(evt.toString()).trim();
         List<EventConfig> eventConfigs = new ArrayList<>();
 
@@ -117,7 +132,7 @@ public class ExecutionParameters {
         evt, // Listado de tipos de eventos
         tt, // telnet token
         s, // semilla
-        apk_loc,
-        apk_name,
+        apk_loc, //
+        apk_name, //
     }
 }

@@ -12,7 +12,6 @@ package co.edu.uniandes.miso4208.config;
 
 import lombok.extern.java.Log;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,13 +37,18 @@ public class Runner {
             int random = emulator.getRandom().nextInt(events.size());
             events.get(random).getEvent().run(emulator);
             currentCount++;
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException e) {
+                log.severe(e.getMessage());
+            }
         }
 
     }
 
     public void installApp() {
         try {
-            String adbCmd = ADB + " install \"C:/Dev/repos/Andes/Pruebas/miso-4208/Apps/com.habitrpg.android.habitica-1.1.6@APK4Fun.com.apk\"";
+            String adbCmd = ADB + " install \"" + execParameters.getApkLocation() + "\"";
             Process proc = Runtime.getRuntime().exec(adbCmd);
             log.info("Instalando APK");
             Scanner s = new Scanner(proc.getInputStream()).useDelimiter("\n");
@@ -65,7 +69,7 @@ public class Runner {
 
     public void startApp() {
         try {
-            String adbCmd = ADB + " shell monkey -p com.habitrpg.android.habitica -c android.intent.category.LAUNCHER 1";
+            String adbCmd = ADB + " shell monkey -p " + execParameters.getApkName() + " -c android.intent.category.LAUNCHER 1";
             Process proc = Runtime.getRuntime().exec(adbCmd);
             log.info("Abriendo APK");
             Scanner s = new Scanner(proc.getInputStream()).useDelimiter("\n");
