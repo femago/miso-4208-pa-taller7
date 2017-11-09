@@ -17,7 +17,7 @@ public class SensorEvent extends Event {
 
     @Override
     protected String command(Emulator emulator) {
-        return "sensor";
+        return "sensor set acceleration 2.23517e-07:9.77631:0.812348";
     }
 
 }

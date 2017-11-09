@@ -4,14 +4,14 @@ import co.edu.uniandes.miso4208.util.ExceptionUtil;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
 @Log
 public class Emulator {
@@ -27,7 +27,7 @@ public class Emulator {
 
     private String emulatorInfo;
     private Long emulatorPort;
-    private Writer telnet;
+    private PrintWriter telnet;
 
     private final int DEVICE_X = 1080;
     private final int DEVICE_Y = 1920;
@@ -77,26 +77,20 @@ public class Emulator {
                 .orElseThrow((Supplier<RuntimeException>) () -> new IllegalArgumentException("Se requiere el parametro -tt indicando el token de telnet"));
 
         if (telnet == null) {
-            String command = "telnet localhost " + emulatorPort;
             try {
-                Process telnetPrc = commandLine.exec(command);
-                telnet = new BufferedWriter(new OutputStreamWriter(telnetPrc.getOutputStream()));
-                telnet.write("auth " + telnetToken + "\n");
-                telnet.flush();
+                Socket socket = new Socket("localhost", emulatorPort.intValue());
+                telnet = new PrintWriter(socket.getOutputStream(), true);
+                telnet.println("auth " + telnetToken);
             } catch (IOException e) {
-                ExceptionUtil.failCommandExec(command);
+                log.severe("Error abriendo socket para comunicacion telnet");
+                throw new RuntimeException(e);
             }
         }
     }
 
     public void sendTelnetCommand(String command) {
         initTelnet();
-        try {
-            telnet.write(command + "\n");
-            telnet.flush();
-        } catch (IOException e) {
-            ExceptionUtil.failCommandExec(command);
-        }
+        telnet.println(command);
     }
 
     public void sendAdbCommand(String command) {

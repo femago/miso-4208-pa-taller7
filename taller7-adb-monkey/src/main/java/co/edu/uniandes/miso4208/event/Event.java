@@ -32,12 +32,12 @@ public abstract class Event {
         switch (type()) {
             case adb:
                 String command = "shell input " + commandPrefix;
-                emulator.sendAdbCommand(command);
                 log.info("adb " + command);
+                emulator.sendAdbCommand(command);
                 break;
             case telnet:
                 log.info("telnet " + commandPrefix);
-                //emulator.sendTelnetCommand(commandPrefix);
+                emulator.sendTelnetCommand(commandPrefix);
                 break;
         }
     }

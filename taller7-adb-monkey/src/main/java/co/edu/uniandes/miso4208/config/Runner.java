@@ -23,7 +23,7 @@ public class Runner {
     private final ExecutionParameters execParameters;
     private final Emulator emulator;
 
-    private int currentCount = 1;
+    private int currentCount = 0;
 
 
     public Runner(ExecutionParameters execParameters, Emulator emulator) {
@@ -33,7 +33,7 @@ public class Runner {
 
     public void monkey() {
         List<EventConfig> events = execParameters.getEvents();
-        while (currentCount != execParameters.getEventCount()) {
+        while (currentCount < execParameters.getEventCount()) {
             int random = emulator.getRandom().nextInt(events.size());
             events.get(random).getEvent().run(emulator);
             currentCount++;
